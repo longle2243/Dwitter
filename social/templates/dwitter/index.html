@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="column">
+    {% for followed in user.profile.follows.all %}
+        {% for dweet in followed.user.dweets.all %}
+        <div class="card" style="width: 40%;">
+            <div class="card-body">
+                <h5 class="card-title">{{ dweet.user.username }}</h5>
+                <p class="card-text">{{dweet.body}}</p>
+            </div>
+            <img class="card-img-top" src="media/{{dweet.Img}}">
+            <div class="card-body">
+                <p class="card-text">{{ dweet.created_at }}</p>
+                <a href="#" class="btn btn-primary">Like</a>
+                <a href="#" class="btn btn-success">Comment</a>
+            </div>
+        </div>
+        <div style="margin-bottom:5%;"></div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<div class="column is-one-third" style="position: fixed;right: 10%;">
+    <div class="block">
+        <a href="{% url 'profile_list' %} ">
+            <button class="button is-dark is-outlined is-fullwidth">
+                All Profiles
+            </button>
+        </a>
+    </div>
+    <div class="block">
+        <a href="{% url 'profile' request.user.profile.id %} ">
+            <button class="button is-success is-light is-outlined is-fullwidth">
+                My Profile
+            </button>
+        </a>
+    </div>
+    <div class="block">
+        <div class="block">
+            <h2 class="title is-2">Add a Dweet</p>
+        </div>
+        <div class="block">
+            <form method="post" enctype= "multipart/form-data">
+                {% csrf_token %}
+                {{form.body}}
+                {{form.Img}}
+                <button class="button is-success is-fullwidth is-medium mt-5"
+                        type="submit">Dweet
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock content %}
+
+
+

@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Dwitter</title>
+    <style>  
+        .navbar {
+          overflow: hidden;
+          position: fixed;
+          width: 100%;
+        }
+           
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <section class="hero is-small is-success mb-4" style="width: 100%;">
+            <div class="hero-body">
+                <a href="{% url 'index' %} " class="nav-link" style="width: 100%;"><h1 class="title is-1">Dwitter</h1></a> 
+            </div>
+            <button type="submit" class="btn btn-warning" style="width: 10%;margin: 0% 0% 1% 89%;"><a href="{% url 'logout' %}" class="text-white">Log out</a></button>
+        </section>  
+    </div>
+    <div style="height: 250px;"></div>
+    <div class="container">
+        <div class="columns">
+            {% block content %}
+
+            {% endblock content %}
+        </div>
+    </div>
+</body>
+</html>
