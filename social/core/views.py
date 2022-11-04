@@ -1,9 +1,9 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import login, authenticate, logout
-from .models import Profile, Dweet
+from .models import Profile, Dweet, Likedweet
 from .forms import DweetForm
 # Create your views here.
 
@@ -63,7 +63,7 @@ def signin(request):
 def logout_view(request):
     logout(request)
     # Redirect to a success page.
-    return render(request,"dwitter/login.html",{"form":AuthenticationForm})
+    return redirect("/login")
 
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
@@ -85,3 +85,19 @@ def profile(request, pk):
       current_user_profile.follows.remove(profile)
     current_user_profile.save()
   return render(request, "dwitter/profile.html", {"profile": profile})
+
+def like_dweet(request, dweetid):
+  profileid=request.user.profile.id
+  dweet=Dweet.objects.get(pk=dweetid)
+  checklike=Likedweet.objects.filter(dweetid=dweetid,profileid=profileid).first()
+  if checklike is None:
+    newlike=Likedweet.objects.create(dweetid=dweetid,profileid=profileid)
+    newlike.save()
+    dweet.like=dweet.like+1
+    dweet.save()
+    return redirect("/")
+  else:
+    checklike.delete()
+    dweet.like=dweet.like-1
+    dweet.save()
+    return redirect("/")

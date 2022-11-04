@@ -13,8 +13,12 @@ class DweetForm(forms.ModelForm):
             }
         ),
         label="",
-    )
-
+    ),
+    like = forms.IntegerField(
+        widget=forms.widgets.TextInput(
+            required=True,
+        ),
+    ),
     class Meta:
         model = Dweet
         exclude = ("user", )

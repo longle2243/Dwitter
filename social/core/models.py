@@ -30,11 +30,16 @@ class Profile(models.Model):
 class Dweet(models.Model):
     user = models.ForeignKey(User, related_name="dweets", on_delete=models.DO_NOTHING)
     body = models.CharField(max_length=140)
-    Img= models.ImageField(upload_to='profile_img')
+    Img= models.ImageField(upload_to='dweet_img')
     created_at = models.DateTimeField(auto_now_add=True)
+    like=models.IntegerField(default=0)
     def __str__(self):
         return (
             f"{self.user} "
             f"({self.created_at:%Y-%m-%d %H:%M}): "
             f"{self.body[:30]}..."
         )
+    
+class Likedweet(models.Model):
+    dweetid=models.CharField(max_length=140)
+    profileid=models.CharField(max_length=140)
