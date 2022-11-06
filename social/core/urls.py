@@ -9,4 +9,5 @@ urlpatterns=[
   path("profile_list/", views.profile_list, name="profile_list"),
   path("profile/<int:pk>/", views.profile, name="profile"),
   path("like_dweet/<int:dweetid>/", views.like_dweet, name="like_dweet"),
+  path("edit_profile/<int:pk>/", views.edit_profile, name="edit_profile"),
 ]

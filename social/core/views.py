@@ -1,10 +1,13 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages
 from .models import Profile, Dweet, Likedweet
 from .forms import DweetForm
+import os
 # Create your views here.
 
 def index(request):
@@ -101,3 +104,18 @@ def like_dweet(request, dweetid):
     dweet.like=dweet.like-1
     dweet.save()
     return redirect("/")
+
+def edit_profile(request, pk):
+  profile = Profile.objects.get(pk=pk)
+  context = {"profile": profile}
+  if request.method == "POST":
+      if len(request.FILES) != 0:
+          if len(profile.profileImg) > 0:
+              os.remove(profile.profileImg.path)
+          profile.profileImg = request.FILES['profileImg']
+      profile.bio = request.POST.get('bio')
+      profile.save()
+      messages.success(request, "Profile Updated Successfully!")
+      return redirect('/edit_profile/' + str(pk))
+      
+  return render(request, "dwitter/edit_profile.html", context)

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <a href="{% url 'profile' request.user.profile.id %}">Back to profile</a>
+    </div>
+    <div class="ml-5">
+        <h1>Edit Profile</h1>
+    <h3>{{request.user.username}}</h3>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="" class="form-label">Bio:</label>
+            <input type="text" required name="bio" class="form-control" value="{{profile.bio}}">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Avatar:</label><br>
+            {% if profile.profileImg %}
+                <img src="http://127.0.0.1:8000/media/{{profile.profileImg}}" alt="avatar" width="200px" height="200px">
+            {% endif %}<br>
+            <input type="file" name="profileImg" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-warning">Update</button>
+    </form>
+    </div>
+    
+{% endblock  %}
