@@ -14,7 +14,7 @@ def index(request):
   if request.user.is_authenticated:
     # return render(request, "dwitter/index.html")
     form = DweetForm(request.POST or None, request.FILES)
-
+    # form.data['id_like'].value(0)
     if request.method == "POST":
       if form.is_valid():
         dweet = form.save(commit=False)
