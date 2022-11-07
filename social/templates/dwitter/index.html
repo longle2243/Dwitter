@@ -46,6 +46,7 @@
                 {% csrf_token %}
                 {{form.body}}
                 {{form.Img}}
+                {{form.like}}
                 <button class="button is-success is-fullwidth is-medium mt-5"
                         type="submit">Dweet
                 </button>
@@ -53,6 +54,10 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("id_like").style.display = "none";
+    document.getElementById("id_like").value = 0;
+</script>
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">Log In</a>
